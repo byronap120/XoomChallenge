@@ -21,5 +21,4 @@ class CountriesFragment : Fragment() {
         return binding.root
     }
 
-
 }
