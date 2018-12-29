@@ -1,4 +1,4 @@
-package com.example.byron.xoomchallenge
+package com.example.byron.xoomchallenge.ui.fragments
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
+import com.example.byron.xoomchallenge.R
 import com.example.byron.xoomchallenge.databinding.FragmentCountriesBinding
 
 
