@@ -14,5 +14,5 @@ interface DisbursementTypeDao {
     fun getDisbursementType(): LiveData<List<DisbursementType>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insertDisbursementType(post: List<DisbursementType>)
+    fun insertDisbursementTypes(disbursement: List<DisbursementType>)
 }

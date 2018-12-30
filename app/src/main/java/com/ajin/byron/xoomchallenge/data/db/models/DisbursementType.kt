@@ -19,7 +19,7 @@ import androidx.room.Index
 data class DisbursementType(
     val id: String,
     val country: String,
-    val code: String,
-    val residence: Boolean,
+    val mode: String,
+    val currencyCode: String,
     val disbursementType: String
 )

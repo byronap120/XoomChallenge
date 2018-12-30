@@ -4,8 +4,7 @@ import com.google.gson.annotations.SerializedName
 
 data class DisbursementType(
     val id: String,
-    val code: String,
-    val residence: Boolean,
+    val mode: String,
     @field:SerializedName("disbursement_type")
     val disbursementType: String,
     val currency: Currency

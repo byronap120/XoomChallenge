@@ -9,5 +9,5 @@ data class Country(
     @field:SerializedName("phone_prefix")
     val phonePrefix: String,
     @field:SerializedName("disbursement_options")
-    val disbursementOptions: List<DisbursementType>
+    val disbursementOptions: List<DisbursementType>?
 )
