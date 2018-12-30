@@ -45,4 +45,10 @@ class CountriesViewModel(application: Application) : AndroidViewModel(applicatio
         }
     }
 
+    fun updateCountry(country: Country){
+        uiScope.launch {
+
+        }
+    }
+
 }

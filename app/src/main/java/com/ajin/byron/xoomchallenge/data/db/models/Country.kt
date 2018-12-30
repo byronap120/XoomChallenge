@@ -12,5 +12,6 @@ data class Country(
     val code: String,
     val name: String,
     val residence: Boolean,
-    val phonePrefix: String
+    val phonePrefix: String,
+    val favorite: Boolean = false
 )

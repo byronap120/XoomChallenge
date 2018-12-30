@@ -54,6 +54,12 @@ class CountriesRepository(
         }
     }
 
+    suspend fun updateCountry(countryDao: CountryDao){
+        withContext(Dispatchers.IO) {
+
+        }
+    }
+
     private fun transformCountry(country: com.ajin.byron.xoomchallenge.data.network.models.Country): Country {
         return Country(country.code, country.name, country.residence, country.phonePrefix)
     }
