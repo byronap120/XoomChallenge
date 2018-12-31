@@ -23,7 +23,7 @@
                 android:layout_marginTop="8dp"
                 android:layout_marginEnd="8dp"
                 app:layout_constraintBottom_toTopOf="@+id/country_prefix"
-                app:layout_constraintEnd_toStartOf="@+id/imageView"
+                app:layout_constraintEnd_toStartOf="@+id/favorite_imageView"
                 app:layout_constraintStart_toEndOf="@+id/country_imageView"
                 app:layout_constraintTop_toTopOf="parent"
                 tools:text="Guatemala" />
@@ -52,7 +52,7 @@
                 tools:text="+502" />
 
             <ImageView
-                android:id="@+id/imageView"
+                android:id="@+id/favorite_imageView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"

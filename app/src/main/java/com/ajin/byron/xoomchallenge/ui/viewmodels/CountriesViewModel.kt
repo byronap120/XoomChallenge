@@ -25,7 +25,8 @@ class CountriesViewModel(application: Application) : AndroidViewModel(applicatio
     init {
         val countryDao = CountryDataBase.getDatabase(application).countryDao()
         val disbursementTypeDao = CountryDataBase.getDatabase(application).disbursementTypeDao()
-        repository = CountriesRepository(countryDao, disbursementTypeDao)
+        val favoriteCountryDao = CountryDataBase.getDatabase(application).favoriteCountryDao()
+        repository = CountriesRepository(countryDao, disbursementTypeDao, favoriteCountryDao)
     }
 
     override fun onCleared() {
@@ -36,7 +37,7 @@ class CountriesViewModel(application: Application) : AndroidViewModel(applicatio
     fun refreshCountries() {
         uiScope.launch {
             try {
-                repository.refreshCountries()
+                repository.refreshCountries(getApplication())
             } catch (error: Error) {
                 Log.d("com.byron.test", error.toString())
             } finally {
@@ -45,9 +46,9 @@ class CountriesViewModel(application: Application) : AndroidViewModel(applicatio
         }
     }
 
-    fun updateCountry(country: Country){
+    fun updateFavoriteCountry(country: Country){
         uiScope.launch {
-
+            repository.updateFavoriteCountry(country.code, !country.favorite)
         }
     }
 

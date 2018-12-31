@@ -11,21 +11,18 @@ import com.ajin.byron.xoomchallenge.R
 import com.ajin.byron.xoomchallenge.data.db.models.Country
 import com.squareup.picasso.Picasso
 
-class CountryAdapter internal constructor(val context: Context) : RecyclerView.Adapter<CountryAdapter.ViewHolder>() {
+class CountryAdapter internal constructor(private val context: Context, private val favoriteClick: (Country) -> Unit) :
+    RecyclerView.Adapter<CountryAdapter.ViewHolder>() {
 
     private var countries = emptyList<Country>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val itemView = LayoutInflater.from(context).inflate(R.layout.country_item, parent, false)
-        return ViewHolder(itemView)
+        return ViewHolder(itemView, favoriteClick)
     }
 
     override fun onBindViewHolder(viewHolder: ViewHolder, position: Int) {
-        val country = countries[position]
-        viewHolder.countryName.text = country.name
-        viewHolder.countryPrefix.text = country.phonePrefix
-        val imageUrl = "https://www.countryflags.io/${country.code}/flat/64.png"
-        viewHolder.updateWithUrl(imageUrl)
+        viewHolder.bindCountry(countries[position])
     }
 
     override fun getItemCount(): Int {
@@ -37,13 +34,25 @@ class CountryAdapter internal constructor(val context: Context) : RecyclerView.A
         notifyDataSetChanged()
     }
 
-    inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val countryName: TextView = itemView.findViewById(R.id.country_name)
-        val countryPrefix: TextView = itemView.findViewById(R.id.country_prefix)
-        val countryImage: ImageView = itemView.findViewById(R.id.country_imageView)
+    inner class ViewHolder(itemView: View, private val favoriteClick: (Country) -> Unit) :
+        RecyclerView.ViewHolder(itemView) {
+        private val countryName: TextView = itemView.findViewById(R.id.country_name)
+        private val countryPrefix: TextView = itemView.findViewById(R.id.country_prefix)
+        private val countryImage: ImageView = itemView.findViewById(R.id.country_imageView)
+        private val favoriteImageView: ImageView = itemView.findViewById(R.id.favorite_imageView)
 
-        fun updateWithUrl(url: String) {
-            Picasso.get().load(url).into(countryImage)
+        fun bindCountry(country: Country) {
+            with(country) {
+                countryName.text = name
+                countryPrefix.text = phonePrefix
+
+                val imageUrl = "https://www.countryflags.io/$code/flat/64.png"
+                Picasso.get().load(imageUrl).into(countryImage)
+
+                val favoriteImage: Int = if (favorite) R.drawable.ic_star_yellow else R.drawable.ic_star_border
+                favoriteImageView.setImageResource(favoriteImage)
+                favoriteImageView.setOnClickListener { favoriteClick(this) }
+            }
         }
     }
 }

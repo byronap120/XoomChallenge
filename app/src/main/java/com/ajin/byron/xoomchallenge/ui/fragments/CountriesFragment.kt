@@ -11,6 +11,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.ajin.byron.xoomchallenge.R
+import com.ajin.byron.xoomchallenge.data.db.models.Country
 import com.ajin.byron.xoomchallenge.databinding.FragmentCountriesBinding
 import com.ajin.byron.xoomchallenge.ui.adapters.CountryAdapter
 import com.ajin.byron.xoomchallenge.ui.viewmodels.CountriesViewModel
@@ -31,13 +32,17 @@ class CountriesFragment : Fragment() {
         )
 
         context?.let {
-            adapter = CountryAdapter(it)
+            adapter = CountryAdapter(it, ::favoriteClick)
             binding.countryList.adapter = adapter
             binding.countryList.layoutManager = LinearLayoutManager(it)
         }
 
 
         return binding.root
+    }
+
+    private fun favoriteClick(country: Country){
+        countriesViewModel.updateFavoriteCountry(country)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
