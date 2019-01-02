@@ -20,7 +20,6 @@ class CountriesViewModel(application: Application, private val repository: Count
     val countries: LiveData<List<Country>>
         get() = repository.countries
 
-
     override fun onCleared() {
         super.onCleared()
         viewModelJob.cancel()
