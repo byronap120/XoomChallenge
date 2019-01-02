@@ -18,23 +18,17 @@ import java.net.HttpURLConnection.HTTP_OK
 class CountriesRepository(
     private val countryDao: CountryDao,
     private val disbursementTypeDao: DisbursementTypeDao,
-    private val favoriteCountryDao: FavoriteCountryDao
+    private val favoriteCountryDao: FavoriteCountryDao,
+    private val countryService: CountryService
 ) {
-
-    private val TAG: String = "com.byron.log"
-    private lateinit var service: CountryService
 
     val countries: LiveData<List<Country>>
         get() = countryDao.getCountries()
 
     suspend fun refreshCountries(context: Context) {
         withContext(Dispatchers.IO) {
-            service = CountryService.makeRetrofitService(context)
             try {
-                val response = service.getCountries(50).await()
-                Log.d(TAG, "RESPONSE:" + response.code().toString() + response.raw().networkResponse()?.code())
-
-
+                val response = countryService.getCountries(50).await()
                 if (response.raw().code() == HTTP_OK) {
                     response.body()?.let {
                         val countryWrapper = response.body() as CountryWrapper
@@ -56,12 +50,10 @@ class CountriesRepository(
                         disbursementTypeDao.insertDisbursementTypes(disbursementTypeList)
                     }
                 } else {
-                    Log.d(TAG, response.errorBody().toString())
+                    Log.d("error", response.errorBody().toString())
                 }
-
-
             } catch (error: Error) {
-                Log.d(TAG, error.toString())
+                Log.d("error", error.toString())
             }
 
         }

@@ -4,7 +4,6 @@ import android.app.Application
 import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
-import com.ajin.byron.xoomchallenge.data.db.CountryDataBase
 import com.ajin.byron.xoomchallenge.data.db.models.Country
 import com.ajin.byron.xoomchallenge.repository.CountriesRepository
 import kotlinx.coroutines.CoroutineScope
@@ -12,22 +11,15 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 
-class CountriesViewModel(application: Application) : AndroidViewModel(application) {
+class CountriesViewModel(application: Application, private val repository: CountriesRepository) :
+    AndroidViewModel(application) {
 
     private val viewModelJob = Job()
     private val uiScope = CoroutineScope(Dispatchers.Main + viewModelJob)
-    private val repository: CountriesRepository
 
     val countries: LiveData<List<Country>>
         get() = repository.countries
 
-
-    init {
-        val countryDao = CountryDataBase.getDatabase(application).countryDao()
-        val disbursementTypeDao = CountryDataBase.getDatabase(application).disbursementTypeDao()
-        val favoriteCountryDao = CountryDataBase.getDatabase(application).favoriteCountryDao()
-        repository = CountriesRepository(countryDao, disbursementTypeDao, favoriteCountryDao)
-    }
 
     override fun onCleared() {
         super.onCleared()
@@ -46,7 +38,7 @@ class CountriesViewModel(application: Application) : AndroidViewModel(applicatio
         }
     }
 
-    fun updateFavoriteCountry(country: Country){
+    fun updateFavoriteCountry(country: Country) {
         uiScope.launch {
             repository.updateFavoriteCountry(country.code, !country.favorite)
         }
