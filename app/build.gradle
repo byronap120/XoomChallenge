@@ -9,7 +9,7 @@ apply plugin: 'kotlin-kapt'
 android {
     compileSdkVersion 28
     defaultConfig {
-        applicationId "com.example.byron.xoomchallenge"
+        applicationId "com.app.byron.xoomcountries"
         minSdkVersion 21
         targetSdkVersion 28
         versionCode 1
