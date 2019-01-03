@@ -12,19 +12,15 @@ import com.ajin.byron.xoomchallenge.R
 import com.ajin.byron.xoomchallenge.data.db.models.Country
 import com.ajin.byron.xoomchallenge.databinding.FragmentCountriesBinding
 import com.ajin.byron.xoomchallenge.ui.adapters.CountryAdapter
-import com.ajin.byron.xoomchallenge.ui.viewmodels.CountriesViewModel
+import com.ajin.byron.xoomchallenge.ui.viewmodels.CountryViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
+class CountryFragment : Fragment() {
 
-class CountriesFragment : Fragment() {
-
-    private val viewModel by viewModel<CountriesViewModel>()
+    private val viewModel by viewModel<CountryViewModel>()
     private lateinit var adapter: CountryAdapter
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
 
         val binding: FragmentCountriesBinding = DataBindingUtil.inflate(
             inflater, R.layout.fragment_countries, container, false
@@ -39,10 +35,6 @@ class CountriesFragment : Fragment() {
         return binding.root
     }
 
-    private fun favoriteClick(country: Country) {
-        viewModel.updateFavoriteCountry(country)
-    }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         viewModel.countries.observe(this, Observer { value ->
             value?.let {
@@ -50,5 +42,9 @@ class CountriesFragment : Fragment() {
             }
         })
         viewModel.refreshCountries()
+    }
+
+    private fun favoriteClick(country: Country) {
+        viewModel.updateFavoriteCountry(country)
     }
 }

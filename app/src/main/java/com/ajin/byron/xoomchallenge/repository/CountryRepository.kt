@@ -15,7 +15,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import java.net.HttpURLConnection.HTTP_OK
 
-class CountriesRepository(
+class CountryRepository(
     private val countryDao: CountryDao,
     private val disbursementTypeDao: DisbursementTypeDao,
     private val favoriteCountryDao: FavoriteCountryDao,
@@ -25,7 +25,7 @@ class CountriesRepository(
     val countries: LiveData<List<Country>>
         get() = countryDao.getCountries()
 
-    suspend fun refreshCountries(context: Context) {
+    suspend fun refreshCountries() {
         withContext(Dispatchers.IO) {
             try {
                 val response = countryService.getCountries(50).await()

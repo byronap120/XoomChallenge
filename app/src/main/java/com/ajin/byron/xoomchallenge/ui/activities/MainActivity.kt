@@ -5,8 +5,6 @@ import android.os.Bundle
 import androidx.databinding.DataBindingUtil
 import com.ajin.byron.xoomchallenge.R
 import com.ajin.byron.xoomchallenge.databinding.ActivityMainBinding
-import com.ajin.byron.xoomchallenge.ui.viewmodels.CountriesViewModel
-import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class MainActivity : AppCompatActivity() {
 

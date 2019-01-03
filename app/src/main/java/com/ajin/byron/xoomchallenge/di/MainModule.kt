@@ -4,8 +4,8 @@ import android.app.Application
 import androidx.room.Room
 import com.ajin.byron.xoomchallenge.data.db.CountryDataBase
 import com.ajin.byron.xoomchallenge.data.network.CountryService
-import com.ajin.byron.xoomchallenge.repository.CountriesRepository
-import com.ajin.byron.xoomchallenge.ui.viewmodels.CountriesViewModel
+import com.ajin.byron.xoomchallenge.repository.CountryRepository
+import com.ajin.byron.xoomchallenge.ui.viewmodels.CountryViewModel
 import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
 import okhttp3.Cache
 import okhttp3.OkHttpClient
@@ -24,9 +24,9 @@ val mainModule = module {
 
     single { get<CountryDataBase>().favoriteCountryDao() }
 
-    single { CountriesRepository(get(), get(), get(), get()) }
+    single { CountryRepository(get(), get(), get(), get()) }
 
-    viewModel { CountriesViewModel(get(), get()) }
+    viewModel { CountryViewModel(get()) }
 
     single { provideOkHttp(get()) }
 

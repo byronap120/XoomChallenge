@@ -1,18 +1,16 @@
 package com.ajin.byron.xoomchallenge.ui.viewmodels
 
-import android.app.Application
 import android.util.Log
-import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.ViewModel
 import com.ajin.byron.xoomchallenge.data.db.models.Country
-import com.ajin.byron.xoomchallenge.repository.CountriesRepository
+import com.ajin.byron.xoomchallenge.repository.CountryRepository
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 
-class CountriesViewModel(application: Application, private val repository: CountriesRepository) :
-    AndroidViewModel(application) {
+class CountryViewModel(private val repository: CountryRepository) : ViewModel() {
 
     private val viewModelJob = Job()
     private val uiScope = CoroutineScope(Dispatchers.Main + viewModelJob)
@@ -28,7 +26,7 @@ class CountriesViewModel(application: Application, private val repository: Count
     fun refreshCountries() {
         uiScope.launch {
             try {
-                repository.refreshCountries(getApplication())
+                repository.refreshCountries()
             } catch (error: Error) {
                 Log.d("com.byron.test", error.toString())
             } finally {
