@@ -80,7 +80,7 @@ class CountryRepository(
     }
 
     /**
-     * every time that a country is inserted it is compared with local data to check if it's a favorite country
+     * every time that a country is inserted, it is compared with local data to check if it's a favorite country
      */
     private fun isFavoriteCountry(countryCode: String): Boolean {
         val favoriteCountry = favoriteCountryDao.getCountryById(countryCode)
