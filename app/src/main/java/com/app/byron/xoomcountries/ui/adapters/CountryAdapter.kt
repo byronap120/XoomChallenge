@@ -6,13 +6,15 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.paging.PagedListAdapter
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.app.byron.xoomcountries.R
 import com.app.byron.xoomcountries.data.db.models.Country
 import com.squareup.picasso.Picasso
 
 class CountryAdapter internal constructor(private val context: Context, private val favoriteClick: (Country) -> Unit) :
-    RecyclerView.Adapter<CountryAdapter.ViewHolder>() {
+    PagedListAdapter<Country, CountryAdapter.ViewHolder>(REPO_COMPARATOR) {
 
     private var countries = emptyList<Country>()
 
@@ -53,6 +55,16 @@ class CountryAdapter internal constructor(private val context: Context, private 
                 favoriteImageView.setImageResource(favoriteImage)
                 favoriteImageView.setOnClickListener { favoriteClick(this) }
             }
+        }
+    }
+
+    companion object {
+        private val REPO_COMPARATOR = object : DiffUtil.ItemCallback<Country>() {
+            override fun areItemsTheSame(oldItem: Country, newItem: Country): Boolean =
+                oldItem.code == newItem.code
+
+            override fun areContentsTheSame(oldItem: Country, newItem: Country): Boolean =
+                oldItem == newItem
         }
     }
 }
