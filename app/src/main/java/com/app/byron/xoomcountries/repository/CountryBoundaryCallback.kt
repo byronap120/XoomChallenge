@@ -10,10 +10,7 @@ import com.app.byron.xoomcountries.data.db.FavoriteCountryDao
 import com.app.byron.xoomcountries.data.db.models.Country
 import com.app.byron.xoomcountries.data.db.models.DisbursementType
 import com.app.byron.xoomcountries.data.network.CountryService
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.*
 
 class CountryBoundaryCallback(
     private val countryDao: CountryDao,
@@ -38,7 +35,7 @@ class CountryBoundaryCallback(
      * Database returned 0 items. We should query the backend for more items.
      */
     override fun onZeroItemsLoaded() {
-        Log.d("CountryBoundaryCallback", "onZeroItemsLoaded")
+        Log.d("byron.countries", "CountryBoundaryCallback: onZeroItemsLoaded")
         requestAndSaveData()
     }
 
@@ -46,7 +43,7 @@ class CountryBoundaryCallback(
      * When all items in the database were loaded, we need to query the backend for more items.
      */
     override fun onItemAtEndLoaded(itemAtEnd: Country) {
-        Log.d("CountryBoundaryCallback", "onItemAtEndLoaded")
+        Log.d("byron.countries", "CountryBoundaryCallback: onItemAtEndLoaded: " + lastRequestedPage)
         requestAndSaveData()
     }
 
@@ -55,18 +52,21 @@ class CountryBoundaryCallback(
 
         isRequestInProgress = true
         uiScope.launch {
-            requestCountries(
-                lastRequestedPage,
-                NETWORK_PAGE_SIZE,
-                { countries ->
-                    lastRequestedPage++
-                    saveCountries(countries)
-                },
-                { error ->
-                    _networkErrors.postValue(error)
-                    isRequestInProgress = false
-                }
-            )
+            withContext(Dispatchers.IO) {
+                requestCountries(
+                    lastRequestedPage,
+                    NETWORK_PAGE_SIZE,
+                    { countries ->
+                        saveCountries(countries)
+                        lastRequestedPage++
+                        isRequestInProgress = false
+                    },
+                    { error ->
+                        _networkErrors.postValue(error)
+                        isRequestInProgress = false
+                    }
+                )
+            }
         }
     }
 

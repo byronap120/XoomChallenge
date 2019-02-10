@@ -1,9 +1,11 @@
 package com.app.byron.xoomcountries.ui.fragments
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -38,9 +40,15 @@ class CountryFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         viewModel.countries.observe(this, Observer { value ->
             value?.let {
-                adapter.setCountries(value)
+                Log.d("byron.countries", "countries list$value")
+                adapter.submitList(value)
             }
         })
+
+        viewModel.networkErrors.observe(this, Observer<String> {
+            Toast.makeText(context, "\uD83D\uDE28 Wooops $it", Toast.LENGTH_LONG).show()
+        })
+
         viewModel.refreshCountries()
     }
 

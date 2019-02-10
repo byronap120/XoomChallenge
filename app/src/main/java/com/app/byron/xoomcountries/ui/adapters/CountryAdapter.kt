@@ -13,27 +13,21 @@ import com.app.byron.xoomcountries.R
 import com.app.byron.xoomcountries.data.db.models.Country
 import com.squareup.picasso.Picasso
 
-class CountryAdapter internal constructor(private val context: Context, private val favoriteClick: (Country) -> Unit) :
-    PagedListAdapter<Country, CountryAdapter.ViewHolder>(REPO_COMPARATOR) {
+class CountryAdapter (private val context: Context, private val favoriteClick: (Country) -> Unit) :
+    PagedListAdapter<Country, RecyclerView.ViewHolder>(REPO_COMPARATOR) {
 
-    private var countries = emptyList<Country>()
-
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val itemView = LayoutInflater.from(context).inflate(R.layout.country_item, parent, false)
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
+        val itemView = LayoutInflater.from(parent.context).inflate(R.layout.country_item, parent, false)
         return ViewHolder(itemView, favoriteClick)
     }
 
-    override fun onBindViewHolder(viewHolder: ViewHolder, position: Int) {
-        viewHolder.bindCountry(countries[position])
-    }
+    override fun onBindViewHolder(viewHolder: RecyclerView.ViewHolder, position: Int) {
+        //viewHolder.bindCountry(countries[position])
 
-    override fun getItemCount(): Int {
-        return countries.size
-    }
-
-    fun setCountries(countries: List<Country>) {
-        this.countries = countries
-        notifyDataSetChanged()
+        val country = getItem(position)
+        if (country != null) {
+            (viewHolder as CountryAdapter.ViewHolder).bindCountry(country)
+        }
     }
 
     inner class ViewHolder(itemView: View, private val favoriteClick: (Country) -> Unit) :
