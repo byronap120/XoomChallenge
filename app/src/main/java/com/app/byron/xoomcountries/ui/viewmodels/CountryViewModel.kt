@@ -1,10 +1,13 @@
 package com.app.byron.xoomcountries.ui.viewmodels
 
-import android.util.Log
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.Transformations
 import androidx.lifecycle.ViewModel
+import androidx.paging.PagedList
 import com.app.byron.xoomcountries.data.db.models.Country
 import com.app.byron.xoomcountries.repository.CountryRepository
+import com.app.byron.xoomcountries.repository.models.CountriesResult
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -15,8 +18,16 @@ class CountryViewModel(private val repository: CountryRepository) : ViewModel() 
     private val viewModelJob = Job()
     private val uiScope = CoroutineScope(Dispatchers.Main + viewModelJob)
 
-    val countries: LiveData<List<Country>>
-        get() = repository.countries
+    private val countryResult = MutableLiveData<CountriesResult>()
+
+    val countries: LiveData<PagedList<Country>> = Transformations.switchMap(countryResult) { it ->
+        it.data
+    }
+
+    val networkErrors: LiveData<String> = Transformations.switchMap(countryResult) { it ->
+        it.networkErrors
+    }
+
 
     override fun onCleared() {
         super.onCleared()
@@ -24,15 +35,7 @@ class CountryViewModel(private val repository: CountryRepository) : ViewModel() 
     }
 
     fun refreshCountries() {
-        uiScope.launch {
-            try {
-                repository.refreshCountries()
-            } catch (error: Error) {
-                Log.d("com.byron.test", error.toString())
-            } finally {
-
-            }
-        }
+        countryResult.postValue(repository.getCountries())
     }
 
     fun updateFavoriteCountry(country: Country) {

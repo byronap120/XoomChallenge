@@ -1,6 +1,6 @@
 package com.app.byron.xoomcountries.data.db
 
-import androidx.lifecycle.LiveData
+import androidx.paging.DataSource
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
@@ -11,7 +11,7 @@ import com.app.byron.xoomcountries.data.db.models.Country
 interface CountryDao {
 
     @Query("SELECT * from country_table ORDER BY favorite DESC")
-    fun getCountries(): LiveData<List<Country>>
+    fun getCountries(): DataSource.Factory<Int, Country>
 
     @Query("UPDATE country_table SET favorite = :favorite WHERE code = :countryId")
     fun updateFavoriteCountry(countryId: String, favorite: Boolean): Int

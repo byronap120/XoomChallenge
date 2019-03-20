@@ -9,6 +9,6 @@ import retrofit2.http.Query
 interface CountryService {
 
     @GET("/catalog/v2/countries")
-    fun getCountries(@Query("page_size") pageSize: Int): Deferred<Response<CountryWrapper>>
+    fun getCountries(@Query("page_size") pageSize: Int, @Query("page") pageIndex: Int): Deferred<Response<CountryWrapper>>
 
 }
