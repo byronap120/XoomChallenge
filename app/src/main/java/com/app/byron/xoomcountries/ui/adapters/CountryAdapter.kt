@@ -1,6 +1,5 @@
 package com.app.byron.xoomcountries.ui.adapters
 
-import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,7 +12,7 @@ import com.app.byron.xoomcountries.R
 import com.app.byron.xoomcountries.data.db.models.Country
 import com.squareup.picasso.Picasso
 
-class CountryAdapter (private val context: Context, private val favoriteClick: (Country) -> Unit) :
+class CountryAdapter(private val favoriteClick: (Country) -> Unit) :
     PagedListAdapter<Country, RecyclerView.ViewHolder>(REPO_COMPARATOR) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {

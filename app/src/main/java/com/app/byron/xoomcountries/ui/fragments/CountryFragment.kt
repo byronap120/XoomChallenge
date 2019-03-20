@@ -29,7 +29,7 @@ class CountryFragment : Fragment() {
         )
 
         context?.let {
-            adapter = CountryAdapter(it, ::favoriteClick)
+            adapter = CountryAdapter(::favoriteClick)
             binding.countryList.adapter = adapter
             binding.countryList.layoutManager = LinearLayoutManager(it)
         }

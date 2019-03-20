@@ -9,5 +9,19 @@
         android:id="@+id/countriesFragment"
         android:name="com.app.byron.xoomcountries.ui.fragments.CountryFragment"
         android:label="fragment_countries"
-        tools:layout="@layout/fragment_countries" />
+        tools:layout="@layout/fragment_countries" >
+        <action
+            android:id="@+id/action_countriesFragment_to_detailCountryFragment"
+            app:destination="@id/detailCountryFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/detailCountryFragment"
+        android:name="com.app.byron.xoomcountries.ui.fragments.DetailCountryFragment"
+        android:label="fragment_detail_country"
+        tools:layout="@layout/fragment_detail_country" >
+        <argument
+            android:name="countryCode"
+            app:argType="string"
+            android:defaultValue="Jupiter"/>
+    </fragment>
 </navigation>
